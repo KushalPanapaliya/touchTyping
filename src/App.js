@@ -16,6 +16,7 @@ function App() {
   //Required string state
   const requiredKey = "asdfjkl;";
   const requiredArray = requiredKey.split("");
+  console.log(requiredArray);
   const [colorArray, setColorArray] = useState(Array(requiredKey.length).fill(0));
 
   useEffect(() => {
@@ -44,24 +45,27 @@ function App() {
   function inputCheck() {
     // check if entered key with required key
     const inputLength = inputWord.length;
-    if((requiredKey.charAt(inputLength-1) === inputWord.charAt(inputLength-1)) && inputLength){
-      //Key matches
-      //console.log("Match");
-      //change color at the index
-      const list = [...colorArray];
-      list[inputLength - 1] = 1;
-      setColorArray(list);
-      // if all the keys match with number of input
-      if(inputLength === requiredKey.length && requiredKey === inputWord){        
-        //stop timer
-        setIsTyping(false);
-        //calculate WPM, Accuracy
-        calculateResult();
+    if(inputLength !== 0){
+      if(requiredKey.charAt(inputLength-1) === inputWord.charAt(inputLength-1)){
+        //Key matches
+        //console.log("Match");
+        //change color at the index
+        const list = [...colorArray];
+        // console.log(list);
+        list[inputLength - 1] = 1;
+        setColorArray(list);
+        // if all the keys match with number of input
+        if(requiredKey === inputWord){        
+          //stop timer
+          setIsTyping(false);
+          //calculate WPM, Accuracy
+          calculateResult();
+        }
+      } else {
+        //key does not match
+        //console.log("Not Match");
+        setWrongInput(prevValue => prevValue + 1);
       }
-    } else {
-      //key does not match
-      //console.log("Not Match");
-      setWrongInput(prevValue => prevValue + 1);
     }
   }
 
